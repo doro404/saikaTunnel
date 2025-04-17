@@ -10,7 +10,6 @@ pub enum TunnelCommand  {
 
 #[derive(Deserialize, Debug)]
 pub struct SshPayload {
-    pub host: String,
     pub user: String,
     pub password: String,
 }

@@ -1,11 +1,11 @@
 pub mod layout;
 use layout::{draw_main_menu, draw_saika_menu, draw_saika_statisticas};
 use crate::state::{UiState, Menu}; // ajuste de acordo com onde UiState e Menu estão definidos
-
 use std::io::{self, Write};
 use ctrlc;
+use std::io::stdout;
 use std::process;
-
+use crossterm::{execute, terminal::{Clear, ClearType}, cursor::MoveTo};
 use crate::core::start::toggle_tunnel;
 
 
@@ -33,7 +33,6 @@ pub fn run_ui() {
             Menu::SaikaTunnel => draw_saika_menu(&state, &tunnel_message),
             Menu::Estatisticas => draw_saika_statisticas(&state),
         }
-        
 
         let mut input = String::new();
         println!("Escolha uma opção: ");
@@ -77,12 +76,10 @@ pub fn run_ui() {
 }
 
 fn clear_terminal() {
-    if cfg!(target_os = "windows") {
-        print!("{}[2J", 27 as char);
-        print!("{}[H", 27 as char);
-    } else {
-        print!("\x1B[2J\x1B[H");
-    }
-
-    io::stdout().flush().unwrap();
+    let mut stdout = stdout();
+    execute!(
+        stdout,
+        Clear(ClearType::All),
+        MoveTo(0, 0)
+    ).unwrap();
 }

@@ -50,7 +50,7 @@ pub fn toggle_tunnel(state_on: bool) -> String {
 
     // Iniciar o túnel em uma thread separada
     thread::spawn(move || {
-        tunnel_core::start_tunnel(tx_cmd.clone(), rx_cmd, tx_msg);
+        tunnel_core::start_tunnel(tx_cmd.clone(), rx_cmd, &tx_msg);
     });
 
     // Enviar o comando de Start para o túnel
